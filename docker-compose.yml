@@ -1,5 +1,5 @@
 services:
-  zola:
+  zulu:
     build:
       context: .
       dockerfile: Dockerfile

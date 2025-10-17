@@ -1,8 +1,8 @@
-# Zola Installation Guide
+# Zulu Chat Installation Guide
 
-Zola is a free, open-source AI chat app with multi-model support. This guide covers how to install and run Zola on different platforms, including Docker deployment options.
+Zulu Chat is a free, open-source AI chat app with multi-model support. This guide covers how to install and run Zulu Chat on different platforms, including Docker deployment options.
 
-![Zola screenshot](./public/cover_zola.webp)
+By Yat@mnhidayatgani
 
 ## Prerequisites
 
@@ -342,13 +342,13 @@ ollama list
 ollama serve
 ```
 
-### Zola + Ollama Integration
+### Zulu Chat + Ollama Integration
 
-Zola automatically detects all models available in your Ollama installation. No additional configuration is needed!
+Zulu Chat automatically detects all models available in your Ollama installation. No additional configuration is needed!
 
 **Features:**
 
-- **Automatic Model Detection**: Zola scans your Ollama instance and makes all models available
+- **Automatic Model Detection**: Zulu Chat scans your Ollama instance and makes all models available
 - **Intelligent Categorization**: Models are automatically categorized by family (Llama, Gemma, Qwen, etc.)
 - **Smart Tagging**: Models get appropriate tags (local, open-source, coding, size-based)
 - **No Pro Restrictions**: All Ollama models are free to use
@@ -358,7 +358,7 @@ Zola automatically detects all models available in your Ollama installation. No 
 
 #### Default Configuration
 
-By default, Zola connects to Ollama at `http://localhost:11434`. This works for local installations.
+By default, Zulu Chat connects to Ollama at `http://localhost:11434`. This works for local installations.
 
 #### Custom Ollama URL
 
@@ -379,7 +379,7 @@ OLLAMA_BASE_URL=http://your-ollama-server:11434 npm run dev
 
 #### Settings UI
 
-Zola includes a settings interface where you can:
+Zulu Chat includes a settings interface where you can:
 
 - Enable/disable Ollama integration
 - Configure custom Ollama base URLs
@@ -390,7 +390,7 @@ Access settings through the gear icon in the interface.
 
 ### Docker with Ollama
 
-For a complete Docker setup with both Zola and Ollama:
+For a complete Docker setup with both Zulu Chat and Ollama:
 
 ```bash
 # Use the provided Docker Compose file
@@ -398,7 +398,7 @@ docker-compose -f docker-compose.ollama.yml up
 
 # Or manually with separate containers
 docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-docker run -p 3000:3000 -e OLLAMA_BASE_URL=http://ollama:11434 zola
+docker run -p 3000:3000 -e OLLAMA_BASE_URL=http://ollama:11434 zulu-chat
 ```
 
 The `docker-compose.ollama.yml` file includes:
@@ -477,8 +477,8 @@ DISABLE_OLLAMA=true
 
 ```bash
 # Clone the repository
-git clone https://github.com/ibelick/zola.git
-cd zola
+git clone https://github.com/mnhidayatgani/zulu-chat.git
+cd zulu-chat
 
 # Install dependencies
 npm install
@@ -491,8 +491,8 @@ npm run dev
 
 ```bash
 # Clone the repository
-git clone https://github.com/ibelick/zola.git
-cd zola
+git clone https://github.com/mnhidayatgani/zulu-chat.git
+cd zulu-chat
 
 # Install dependencies
 npm install
@@ -505,7 +505,7 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 ## Supabase Setup
 
-Zola requires Supabase for authentication and storage. Follow these steps to set up your Supabase project:
+Zulu Chat requires Supabase for authentication and storage. Follow these steps to set up your Supabase project:
 
 1. Create a new project at [Supabase](https://supabase.com)
 2. Set up the database schema using the SQL script below
@@ -641,7 +641,7 @@ docker-compose down
 
 ### Option 3: Docker Compose with Ollama (Recommended for Local AI)
 
-For a complete setup with both Zola and Ollama running locally, use the provided `docker-compose.ollama.yml`:
+For a complete setup with both Zulu Chat and Ollama running locally, use the provided `docker-compose.ollama.yml`:
 
 ```bash
 # Start both Zola and Ollama services
@@ -662,7 +662,7 @@ This setup includes:
 - **Proper networking** between Zola and Ollama
 - **Volume persistence** for Ollama models
 
-The Ollama service will be available at `http://localhost:11434` and Zola will automatically detect all available models.
+The Ollama service will be available at `http://localhost:11434` and Zulu Chat will automatically detect all available models.
 
 To customize which models are pulled, edit the `docker-compose.ollama.yml` file and modify the `OLLAMA_MODELS` environment variable:
 
@@ -675,7 +675,7 @@ environment:
 
 ### Deploy to Vercel
 
-The easiest way to deploy Zola is using Vercel:
+The easiest way to deploy Zulu Chat is using Vercel:
 
 1. Push your code to a Git repository (GitHub, GitLab, etc.)
 2. Import the project into Vercel
@@ -704,7 +704,7 @@ npm start
 
 ## Configuration Options
 
-You can customize various aspects of Zola by modifying the configuration files:
+You can customize various aspects of Zulu Chat by modifying the configuration files:
 
 - `app/lib/config.ts`: Configure AI models, daily message limits, etc.
 - `.env.local`: Set environment variables and API keys
@@ -735,3 +735,7 @@ You can customize various aspects of Zola by modifying the configuration files:
 ## License
 
 Apache License 2.0
+
+## Credits
+
+Originally forked from [benihutapea's](https://github.com/benihutapea) work.

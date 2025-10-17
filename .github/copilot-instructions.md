@@ -1,9 +1,10 @@
-# Copilot / AI agent instructions for Zola
+# Copilot / AI agent instructions for Zulu Chat
 
 Target length: ~20–50 lines. Keep edits small and incremental. When in doubt, open the referenced file before editing.
 
 Overview
-- Zola is a Next.js (App Router) chat UI that supports cloud providers (OpenAI, Mistral, Claude, Gemini, etc.) and local models via Ollama. Key runtime pieces live under `app/` (UI + server App Routes) and `lib/` (business logic, model discovery, supabase helpers, provider glue).
+- Zulu Chat is a Next.js (App Router) chat UI that supports cloud providers (OpenAI, Mistral, Claude, Gemini, etc.) and local models via Ollama. Key runtime pieces live under `app/` (UI + server App Routes) and `lib/` (business logic, model discovery, supabase helpers, provider glue).
+- Credits: Originally forked from benihutapea's work.
 
 Where to start
 - Read `README.md` for deployment options (cloud, Ollama, Docker). Quick dev: `npm install` then `npm run dev` (uses `next dev --turbopack`).
@@ -23,7 +24,13 @@ Model & provider integration (important)
 
 Secrets and user keys
 - Environment keys are consulted in `lib/user-keys.ts` (fallbacks) and per-user encrypted keys are stored in Supabase `user_keys` (see `lib/encryption.ts` and `lib/user-keys.ts`).
-- Important env variables: `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE`, `OLLAMA_BASE_URL`, `DISABLE_OLLAMA`, `ZOLA_OFFICIAL`.
+- Important env variables: `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE`, `OLLAMA_BASE_URL`, `DISABLE_OLLAMA`, `ZOLA_OFFICIAL`, `NEXT_PUBLIC_APP_URL`.
+
+Authentication & session
+- Authentication flow: `app/auth/login-page.tsx` -> `lib/api.ts:signInWithGoogle()` -> `app/auth/callback/route.ts` -> redirect to app.
+- OAuth handling: Protocol detection for redirects is critical—see `app/auth/callback/route.ts` for edge cases and proxy support.
+- Login errors: Enhanced error messages in `app/auth/login-page.tsx` provide more descriptive feedback to users.
+- Supabase clients: Browser auth uses `lib/supabase/client.ts`, server endpoints use `lib/supabase/server.ts`, admin operations use `lib/supabase/server-guest.ts`.
 
 Runtime & local dev notes
 - Ollama: default endpoint `http://localhost:11434`. Detection lives in `lib/models/data/ollama.ts`. Ollama is intentionally disabled in production builds unless configured.
@@ -47,5 +54,7 @@ Examples to reference while coding
 - Streamed assistant responses: `app/api/chat/route.ts` (uses `streamText` and `modelConfig.apiSdk(...)`).
 - Ollama detection and fallback models: `lib/models/data/ollama.ts` (see `detectOllamaModels()` and `staticOllamaModels`).
 - API key resolution: `lib/user-keys.ts` (`getEffectiveApiKey`) — checks per-user encrypted keys then env fallbacks.
+- Authentication flow: `app/auth/login-page.tsx` calls `signInWithGoogle()`, which redirects to `app/auth/callback/route.ts`.
+- Protocol detection: `app/auth/callback/route.ts` handles various hosting environments and proxy setups.
 
 If anything here is unclear or you need more examples (code paths to change for a given task), tell me which area and I'll expand specific examples or add short recipes.

@@ -1,10 +1,8 @@
-# Zola
+# Zulu Chat
 
-[zola.chat](https://zola.chat)
+**Zulu Chat** is the open-source chat interface for all your models.
 
-**Zola** is the open-source chat interface for all your models.
-
-![zola cover](./public/cover_zola.jpg)
+By Yat@mnhidayatgani
 
 ## Features
 
@@ -23,8 +21,8 @@
 ### Option 1: With OpenAI (Cloud)
 
 ```bash
-git clone https://github.com/ibelick/zola.git
-cd zola
+git clone https://github.com/mnhidayatgani/zulu-chat.git
+cd zulu-chat
 npm install
 echo "OPENAI_API_KEY=your-key" > .env.local
 npm run dev
@@ -37,24 +35,24 @@ npm run dev
 curl -fsSL https://ollama.ai/install.sh | sh
 ollama pull llama3.2  # or any model you prefer
 
-# Clone and run Zola
-git clone https://github.com/ibelick/zola.git
-cd zola
+# Clone and run Zulu Chat
+git clone https://github.com/mnhidayatgani/zulu-chat.git
+cd zulu-chat
 npm install
 npm run dev
 ```
 
-Zola will automatically detect your local Ollama models!
+Zulu Chat will automatically detect your local Ollama models!
 
 ### Option 3: Docker with Ollama
 
 ```bash
-git clone https://github.com/ibelick/zola.git
-cd zola
+git clone https://github.com/mnhidayatgani/zulu-chat.git
+cd zulu-chat
 docker-compose -f docker-compose.ollama.yml up
 ```
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ibelick/zola)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mnhidayatgani/zulu-chat)
 
 To unlock features like auth, file uploads, see [INSTALL.md](./INSTALL.md).
 
@@ -75,6 +73,10 @@ To unlock features like auth, file uploads, see [INSTALL.md](./INSTALL.md).
 ## License
 
 Apache License 2.0
+
+## Credits
+
+Originally forked from [benihutapea's](https://github.com/benihutapea) work.
 
 ## Notes
 
