@@ -14,6 +14,9 @@ import { getUserProfile } from "@/lib/user/api"
 import { ThemeProvider } from "next-themes"
 import Script from "next/script"
 import { LayoutClient } from "./layout-client"
+import { LocaleProvider } from "./hooks/use-locale"
+import { HtmlLangSetter } from "./components/html-lang-setter"
+import { AccessibilityProvider } from "@/lib/accessibility/provider"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +44,7 @@ export default async function RootLayout({
   const userProfile = await getUserProfile()
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       {isOfficialDeployment ? (
         <Script
           defer
@@ -54,14 +57,17 @@ export default async function RootLayout({
       >
         <TanstackQueryProvider>
           <LayoutClient />
-          <UserProvider initialUser={userProfile}>
-            <ModelProvider>
-              <ChatsProvider userId={userProfile?.id}>
-                <ChatSessionProvider>
-                  <UserPreferencesProvider
-                    userId={userProfile?.id}
-                    initialPreferences={userProfile?.preferences}
-                  >
+          <LocaleProvider>
+            <HtmlLangSetter />
+            <AccessibilityProvider>
+            <UserProvider initialUser={userProfile}>
+              <ModelProvider>
+                <ChatsProvider userId={userProfile?.id}>
+                  <ChatSessionProvider>
+                    <UserPreferencesProvider
+                      userId={userProfile?.id}
+                      initialPreferences={userProfile?.preferences}
+                    >
                     <TooltipProvider
                       delayDuration={200}
                       skipDelayDuration={500}
@@ -83,6 +89,8 @@ export default async function RootLayout({
               </ChatsProvider>
             </ModelProvider>
           </UserProvider>
+            </AccessibilityProvider>
+          </LocaleProvider>
         </TanstackQueryProvider>
       </body>
     </html>

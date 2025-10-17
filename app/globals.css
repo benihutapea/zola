@@ -3,6 +3,8 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
+@import "./accessibility.css";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {

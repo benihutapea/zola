@@ -1,15 +1,9 @@
-import { ChatContainer } from "@/app/components/chat/chat-container"
-import { LayoutApp } from "@/app/components/layout/layout-app"
-import { MessagesProvider } from "@/lib/chat-store/messages/provider"
+
+import HomePage from './home-page'
 
 export const dynamic = "force-dynamic"
 
 export default function Home() {
-  return (
-    <MessagesProvider>
-      <LayoutApp>
-        <ChatContainer />
-      </LayoutApp>
-    </MessagesProvider>
-  )
+  // This is the landing page
+  return <HomePage />
 }

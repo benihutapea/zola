@@ -90,7 +90,7 @@ export function ModelSelector({
       <div
         key={model.id}
         className={cn(
-          "flex w-full items-center justify-between px-3 py-2",
+          "flex w-full items-center justify-between px-3 py-2 relative overflow-hidden transition-all duration-200 hover:bg-accent/50",
           selectedModelId === model.id && "bg-accent"
         )}
         onClick={() => {
@@ -108,17 +108,24 @@ export function ModelSelector({
           }
         }}
       >
-        <div className="flex items-center gap-3">
-          {provider?.icon && <provider.icon className="size-5" />}
+        <div className="flex items-center gap-3 relative z-10">
+          {provider?.icon && (
+            <div className="transition-transform duration-200 hover:scale-110">
+              <provider.icon className="size-5" />
+            </div>
+          )}
           <div className="flex flex-col gap-0">
-            <span className="text-sm">{model.name}</span>
+            <span className="text-sm font-medium">{model.name}</span>
           </div>
         </div>
         {isLocked && (
-          <div className="border-input bg-accent text-muted-foreground flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-[10px] font-medium">
+          <div className="border-input bg-accent text-muted-foreground flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-[10px] font-medium animate-pulse">
             <StarIcon className="size-2" />
             <span>Locked</span>
           </div>
+        )}
+        {selectedModelId === model.id && (
+          <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
         )}
       </div>
     )

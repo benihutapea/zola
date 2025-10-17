@@ -5,6 +5,7 @@ import { toast } from "@/components/ui/toast"
 import { useChats } from "@/lib/chat-store/chats/provider"
 import { useMessages } from "@/lib/chat-store/messages/provider"
 import { clearAllIndexedDBStores } from "@/lib/chat-store/persist"
+import { useLocale } from "@/app/hooks/use-locale"
 import { useUser } from "@/lib/user-store/provider"
 import { SignOut } from "@phosphor-icons/react"
 import { useRouter } from "next/navigation"
@@ -14,6 +15,7 @@ export function AccountManagement() {
   const { resetChats } = useChats()
   const { resetMessages } = useMessages()
   const router = useRouter()
+  const { t } = useLocale()
 
   const handleSignOut = async () => {
     try {
@@ -31,8 +33,8 @@ export function AccountManagement() {
   return (
     <div className="flex items-center justify-between">
       <div>
-        <h3 className="text-sm font-medium">Account</h3>
-        <p className="text-muted-foreground text-xs">Log out on this device</p>
+        <h3 className="text-sm font-medium">{t("account")}</h3>
+        <p className="text-muted-foreground text-xs">{t("logOutDevice")}</p>
       </div>
       <Button
         variant="default"
@@ -41,7 +43,7 @@ export function AccountManagement() {
         onClick={handleSignOut}
       >
         <SignOut className="size-4" />
-        <span>Sign out</span>
+        <span>{t("signOut")}</span>
       </Button>
     </div>
   )

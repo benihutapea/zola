@@ -3,6 +3,10 @@
 import { Button } from "@/components/ui/button"
 import { signInWithGoogle } from "@/lib/api"
 import { createClient } from "@/lib/supabase/client"
+import { useLocale } from "@/app/hooks/use-locale"
+import { AccessibilitySettingsDialog } from "@/app/components/accessibility-settings-dialog"
+import { ThemeToggle } from "@/app/components/theme-toggle"
+import { LanguageSwitcher } from "@/app/components/language-switcher"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
@@ -11,6 +15,7 @@ import { HeaderGoBack } from "../components/header-go-back"
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { t } = useLocale()
 
   async function handleSignInWithGoogle() {
     const supabase = createClient()
@@ -31,10 +36,27 @@ export default function LoginPage() {
       }
     } catch (err: unknown) {
       console.error("Error signing in with Google:", err)
-      setError(
-        (err as Error).message ||
-          "An unexpected error occurred. Please try again."
-      )
+      
+      // More descriptive error messages based on common issues
+      let errorMessage = t("errorOccurred")
+      
+      if (err instanceof Error) {
+        // Handle specific error types or messages
+        if (err.message.includes("network")) {
+          errorMessage = t("networkError")
+        } else if (err.message.includes("CORS")) {
+          errorMessage = t("corsError")
+        } else if (err.message.includes("popup")) {
+          errorMessage = t("popupError")
+        } else if (err.message.includes("configuration")) {
+          errorMessage = t("configError")
+        } else {
+          // Use the original error message if available
+          errorMessage = err.message || errorMessage
+        }
+      }
+      
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }
@@ -42,16 +64,23 @@ export default function LoginPage() {
 
   return (
     <div className="bg-background flex h-dvh w-full flex-col">
-      <HeaderGoBack href="/" />
+      <div className="flex justify-between items-center">
+        <HeaderGoBack href="/" />
+        <div className="flex items-center gap-2 p-2">
+          <AccessibilitySettingsDialog />
+          <ThemeToggle />
+          <LanguageSwitcher />
+        </div>
+      </div>
 
       <main className="flex flex-1 flex-col items-center justify-center px-4 sm:px-6">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <h1 className="text-foreground text-3xl font-medium tracking-tight sm:text-4xl">
-              Welcome to Zulu Chat
+              {t("welcome")}
             </h1>
             <p className="text-muted-foreground mt-3">
-              Sign in below to increase your message limits.
+              {t("messageLimits")}
             </p>
           </div>
           {error && (
@@ -67,7 +96,7 @@ export default function LoginPage() {
               onClick={handleSignInWithGoogle}
               disabled={isLoading}
             >
-              <img
+              <Image
                 src="https://www.google.com/favicon.ico"
                 alt="Google logo"
                 width={20}
@@ -75,7 +104,7 @@ export default function LoginPage() {
                 className="mr-2 size-4"
               />
               <span>
-                {isLoading ? "Connecting..." : "Continue with Google"}
+                {isLoading ? t("connecting") : t("continueWithGoogle")}
               </span>
             </Button>
           </div>
@@ -85,14 +114,15 @@ export default function LoginPage() {
       <footer className="text-muted-foreground py-6 text-center text-sm">
         {/* @todo */}
         <p>
-          By continuing, you agree to our{" "}
-          <Link href="/" className="text-foreground hover:underline">
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link href="/" className="text-foreground hover:underline">
-            Privacy Policy
-          </Link>
+          {t("agreementText", {
+            terms: `<Link href="/" className="text-foreground hover:underline">${t("termsOfService")}</Link>`,
+            privacy: `<Link href="/" className="text-foreground hover:underline">${t("privacyPolicy")}</Link>`
+          }).replace(
+            /<Link([^>]*)>(.*?)<\/Link>/g, 
+            (_, props, content) => (
+              `<Link ${props}>${content}</Link>`
+            )
+          )}
         </p>
       </footer>
     </div>

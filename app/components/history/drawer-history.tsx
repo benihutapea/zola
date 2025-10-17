@@ -7,6 +7,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { TagFilter } from "@/app/components/tags/tag-filter"
+import { ChatTags } from "@/app/components/tags/chat-tags"
 import { useChats } from "@/lib/chat-store/chats/provider"
 import { Chats } from "@/lib/chat-store/types"
 import {
@@ -16,11 +18,12 @@ import {
   TrashSimple,
   X,
 } from "@phosphor-icons/react"
-import { Pin, PinOff } from "lucide-react"
+import { Pin, PinOff, Tag } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import React, { useCallback, useMemo, useState } from "react"
 import { formatDate, groupChatsByDate } from "./utils"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
 type DrawerHistoryProps = {
   chatHistory: Chats[]
@@ -44,6 +47,8 @@ export function DrawerHistory({
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editTitle, setEditTitle] = useState("")
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [activeTab, setActiveTab] = useState<"search" | "tags">("search")
   const params = useParams<{ chatId: string }>()
 
   const handleOpenChange = useCallback(
@@ -54,6 +59,7 @@ export function DrawerHistory({
         setEditingId(null)
         setEditTitle("")
         setDeletingId(null)
+        setSelectedTags([])
       }
     },
     [setIsOpen]
@@ -93,21 +99,57 @@ export function DrawerHistory({
     setDeletingId(null)
   }, [])
 
+  // Toggle tag selection
+  const handleTagSelect = useCallback((tag: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tag)
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    )
+  }, [])
+  
   // Memoize filtered chats to avoid recalculating on every render
   const filteredChat = useMemo(() => {
     const query = searchQuery.toLowerCase()
-    return query
+    
+    // Apply text search filter
+    let filtered = query
       ? chatHistory.filter((chat) =>
           (chat.title || "").toLowerCase().includes(query)
         )
       : chatHistory
-  }, [chatHistory, searchQuery])
-
+      
+    // Apply tag filters if any are selected
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter(chat => {
+        // If the chat has no tags, exclude it when tags are selected
+        if (!chat.tags || !Array.isArray(chat.tags)) return false
+        
+        // Check if the chat has at least one of the selected tags
+        return selectedTags.some(tag => chat.tags?.includes(tag))
+      })
+    }
+    
+    return filtered
+  }, [chatHistory, searchQuery, selectedTags])
+  
   // Group chats by time periods - memoized to avoid recalculation
-  const groupedChats = useMemo(
-    () => groupChatsByDate(chatHistory, searchQuery),
-    [chatHistory, searchQuery]
-  )
+  const groupedChats = useMemo(() => {
+    // When filtering by tags, don't use date grouping
+    if (selectedTags.length > 0) {
+      return []
+    }
+    
+    return groupChatsByDate(
+      // If searching, filter the chatHistory first
+      searchQuery ? 
+        chatHistory.filter(chat => 
+          (chat.title || "").toLowerCase().includes(searchQuery.toLowerCase())
+        ) : 
+        chatHistory,
+      searchQuery
+    )
+  }, [chatHistory, searchQuery, selectedTags])
 
   // Render chat item
   const renderChatItem = useCallback(
@@ -221,9 +263,29 @@ export function DrawerHistory({
                 <span className="line-clamp-1 text-base font-normal">
                   {chat.title || "Untitled Chat"}
                 </span>
-                <span className="mr-2 text-xs font-normal text-gray-500">
-                  {formatDate(chat?.updated_at || chat?.created_at)}
-                </span>
+                <div className="flex flex-wrap items-center gap-1">
+                  <span className="text-xs font-normal text-gray-500">
+                    {formatDate(chat?.updated_at || chat?.created_at)}
+                  </span>
+                  
+                  {chat.tags && chat.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {chat.tags.slice(0, 3).map(tag => (
+                        <span 
+                          key={tag} 
+                          className="bg-secondary text-secondary-foreground text-xs rounded-full px-1.5 py-0.5"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                      {chat.tags.length > 3 && (
+                        <span className="text-xs text-muted-foreground">
+                          +{chat.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
               </Link>
               <div className="flex items-center">
                 <div className="flex gap-1">
@@ -302,25 +364,51 @@ export function DrawerHistory({
       <DrawerContent>
         <div className="flex h-dvh max-h-[80vh] flex-col">
           <div className="border-b p-4 pb-3">
-            <div className="relative">
-              <Input
-                placeholder="Search..."
-                className="rounded-lg py-1.5 pl-8 text-sm"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <MagnifyingGlass className="absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2 transform text-gray-400" />
-            </div>
+            <Tabs 
+              value={activeTab} 
+              onValueChange={(value) => setActiveTab(value as "search" | "tags")}
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="search">Search</TabsTrigger>
+                <TabsTrigger value="tags">Filter by Tags</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="search" className="mt-2">
+                <div className="relative">
+                  <Input
+                    placeholder="Search..."
+                    className="rounded-lg py-1.5 pl-8 text-sm"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <MagnifyingGlass className="absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2 transform text-gray-400" />
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="tags">
+                <TagFilter 
+                  selectedTags={selectedTags} 
+                  onSelectTag={handleTagSelect} 
+                  className="mt-2" 
+                />
+              </TabsContent>
+            </Tabs>
           </div>
 
           <ScrollArea className="flex-1 overflow-auto">
             <div className="flex flex-col space-y-6 px-4 pt-4 pb-8">
               {filteredChat.length === 0 ? (
                 <div className="text-muted-foreground py-4 text-center text-sm">
-                  No chat history found.
+                  {selectedTags.length > 0 
+                    ? "No chats found with the selected tags." 
+                    : searchQuery 
+                      ? "No chats match your search." 
+                      : "No chat history found."
+                  }
                 </div>
-              ) : searchQuery ? (
-                // When searching, display a flat list without grouping
+              ) : searchQuery || selectedTags.length > 0 ? (
+                // When searching or filtering by tags, display a flat list without grouping
                 <div className="space-y-2">
                   {filteredChat.map((chat) => renderChatItem(chat))}
                 </div>

@@ -11,6 +11,56 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      templates: {
+        Row: {
+          id: string
+          title: string
+          description: string | null
+          content: string
+          user_id: string
+          created_at: string | null
+          updated_at: string | null
+          is_public: boolean
+          category: string | null
+          tags: string[] | null
+          usage_count: number | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          description?: string | null
+          content: string
+          user_id: string
+          created_at?: string | null
+          updated_at?: string | null
+          is_public?: boolean
+          category?: string | null
+          tags?: string[] | null
+          usage_count?: number | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string | null
+          content?: string
+          user_id?: string
+          created_at?: string | null
+          updated_at?: string | null
+          is_public?: boolean
+          category?: string | null
+          tags?: string[] | null
+          usage_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "templates_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       projects: {
         Row: {
           id: string
@@ -100,6 +150,7 @@ export type Database = {
           public: boolean
           pinned: boolean
           pinned_at: string | null
+          tags: string[] | null
         }
         Insert: {
           created_at?: string | null
@@ -112,6 +163,7 @@ export type Database = {
           public?: boolean
           pinned?: boolean
           pinned_at?: string | null
+          tags?: string[] | null
         }
         Update: {
           created_at?: string | null
@@ -124,6 +176,7 @@ export type Database = {
           public?: boolean
           pinned?: boolean
           pinned_at?: string | null
+          tags?: string[] | null
         }
         Relationships: [
           {
