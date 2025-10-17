@@ -5,8 +5,13 @@ import { AppInfoTrigger } from "@/app/components/layout/app-info/app-info-trigge
 import { ButtonNewChat } from "@/app/components/layout/button-new-chat"
 import { UserMenu } from "@/app/components/layout/user-menu"
 import { useBreakpoint } from "@/app/hooks/use-breakpoint"
+import { useLocale } from "@/app/hooks/use-locale"
+import { LanguageSwitcher } from "@/app/components/language-switcher"
+import { ThemeToggle } from "@/app/components/theme-toggle"
+import { AccessibilitySettingsDialog } from "@/app/components/accessibility-settings-dialog"
 import { ZuluIcon } from "@/components/icons/zulu"
 import { Button } from "@/components/ui/button"
+import { BarChart3 } from "lucide-react"
 import { APP_NAME } from "@/lib/config"
 import { useUserPreferences } from "@/lib/user-preference-store/provider"
 import { useUser } from "@/lib/user-store/provider"
@@ -20,6 +25,7 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
   const { user } = useUser()
   const { preferences } = useUserPreferences()
   const isMultiModelEnabled = preferences.multiModelEnabled
+  const { t } = useLocale()
 
   const isLoggedIn = !!user
 
@@ -54,11 +60,14 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
                   </Button>
                 }
               />
+              <AccessibilitySettingsDialog />
+              <ThemeToggle />
+              <LanguageSwitcher />
               <Link
                 href="/auth"
                 className="font-base text-muted-foreground hover:text-foreground text-base transition-colors"
               >
-                Login
+                {t("login")}
               </Link>
             </div>
           ) : (
@@ -66,6 +75,14 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
               {!isMultiModelEnabled && <DialogPublish />}
               <ButtonNewChat />
               {!hasSidebar && <HistoryTrigger hasSidebar={hasSidebar} />}
+              <Link href="/dashboard">
+                <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Dashboard">
+                  <BarChart3 className="h-4 w-4" />
+                </Button>
+              </Link>
+              <AccessibilitySettingsDialog />
+              <ThemeToggle />
+              <LanguageSwitcher />
               <UserMenu />
             </div>
           )}

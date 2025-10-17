@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/tooltip"
 import { useUser } from "@/lib/user-store/provider"
 import { GithubLogoIcon } from "@phosphor-icons/react"
+import { BarChart } from "lucide-react"
 import { useState } from "react"
 import { AppInfoTrigger } from "./app-info/app-info-trigger"
 import { FeedbackTrigger } from "./feedback/feedback-trigger"
@@ -72,6 +73,12 @@ export function UserMenu() {
         <SettingsTrigger onOpenChange={handleSettingsOpenChange} />
         <FeedbackTrigger />
         <AppInfoTrigger />
+        <DropdownMenuItem asChild>
+          <a href="/dashboard" className="flex items-center gap-2">
+            <BarChart className="size-4" />
+            <span>Dashboard</span>
+          </a>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <a
