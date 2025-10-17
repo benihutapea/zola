@@ -11,12 +11,15 @@ Where to start
 
 Server vs Client patterns
 - Server-only code: App Route handlers in `app/api/*` (e.g. `app/api/chat/route.ts`, `app/api/models/route.ts`). These run on the server and use `createClient()` from `lib/supabase/*` where needed.
+- Middleware: `middleware.ts` handles auth session updates (via `utils/supabase/middleware.ts`) and CSRF protection for POST/PUT/DELETE requests.
 - Client components live inside `app/components` and `components/` and expect browser-safe imports only.
+- State management: Zustand stores in `lib/*-store/` (chat-store, model-store, user-store, user-preference-store) for client-side state.
 
 Model & provider integration (important)
 - Model discovery: `lib/models/*` — static model data under `lib/models/data/*` and dynamic detection for Ollama in `lib/models/data/ollama.ts` (uses `OLLAMA_BASE_URL` and is disabled in production by default).
 - Provider mapping and SDK factories: see `lib/openproviders/*` and `lib/openproviders/provider-map` (used by `modelConfig.apiSdk(...)`). Example usage: `app/api/chat/route.ts` calls `modelConfig.apiSdk(apiKey, { enableSearch })` and streams via `streamText` from the `ai` SDK.
 - Adding a new provider: add mapping in `lib/openproviders` and register models in `lib/models/data` (or make them discoverable via the Ollama detection flow).
+- MCP (Model Context Protocol) support: helpers in `lib/mcp/` for loading MCP servers from local config or URLs (work in progress).
 
 Secrets and user keys
 - Environment keys are consulted in `lib/user-keys.ts` (fallbacks) and per-user encrypted keys are stored in Supabase `user_keys` (see `lib/encryption.ts` and `lib/user-keys.ts`).
