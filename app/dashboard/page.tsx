@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import { ConversationMetrics } from '@/app/components/dashboard/conversation-metrics'
+import { RecentActivityClient } from '@/app/components/dashboard/recent-activity-client'
+import { TokenUsageClient } from '@/app/components/dashboard/token-usage-client'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { APP_NAME } from '@/lib/config'
 
@@ -26,18 +28,18 @@ export default function DashboardPage() {
             <CardTitle>Recent Activity</CardTitle>
             <CardDescription>Your most recent conversations</CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">Coming soon...</p>
+          <CardContent className="p-0">
+            <RecentActivityClient />
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader>
             <CardTitle>Token Usage</CardTitle>
-            <CardDescription>Track your token consumption</CardDescription>
+            <CardDescription>Track your token consumption by model</CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">Coming soon...</p>
+          <CardContent className="p-0 px-4">
+            <TokenUsageClient />
           </CardContent>
         </Card>
       </div>
