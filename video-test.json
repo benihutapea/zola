@@ -1,0 +1,8 @@
+{
+  "provider": "stability",
+  "modelId": "gen-2",
+  "prompt": "A drone shot flying over a forest in autumn",
+  "duration": 5,
+  "fps": 24,
+  "resolution": "1280x720"
+}

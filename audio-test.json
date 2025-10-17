@@ -1,0 +1,8 @@
+{
+  "provider": "openai",
+  "modelId": "audio-gen",
+  "prompt": "A peaceful ambient track with piano and light strings",
+  "duration": 15,
+  "style": "music",
+  "format": "mp3"
+}

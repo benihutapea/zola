@@ -1,0 +1,7 @@
+{
+  "provider": "openai",
+  "modelId": "dall-e-3",
+  "prompt": "A beautiful sunset over mountains with a lake reflection",
+  "size": "1024x1024",
+  "quality": 90
+}
