@@ -46,6 +46,8 @@
   "quickAccess": "Quick Access",
   "history": "History",
   "settings": "Settings",
+  "comingSoon": "Coming Soon",
+  "soon": "Soon",
   "achievementUnlocked": "Achievement unlocked!",
   "conversationMaster": "You have become a Conversation Master",
   "completedConversations": "Completed {count} conversations",
@@ -156,7 +158,7 @@
   "preserveFacialFeaturesTooltip": "Maintains authentic facial features without idealization",
   "styleLibrary": "Style Library",
   "searchStyles": "Search styles...",
-  "filter": "Filter",
+  "filterStyles": "Filter",
   "allStyles": "All",
   "selected": "selected",
   "combinedStylePrompt": "Combined Style Prompt",
@@ -209,5 +211,11 @@
   "configurationCode": "Configuration Code",
   "applySettingsToModel": "Apply Settings to Model",
   "advancedSettingsNote": "These settings will apply to your next generation. Different models support different settings.",
-  "basicSettings": "Basic Settings"
+  "basicSettings": "Basic Settings",
+  "pageNotFoundTitle": "404 – Page not found",
+  "pageNotFoundDescription": "Sorry, this page doesn't exist.",
+  "appInfoDescription1": "is the open-source interface for AI chat.",
+  "appInfoDescription2": "Multi-model, BYOK-ready, and fully self-hostable.",
+  "appInfoDescription3": "Use Claude, OpenAI, Gemini, local models, and more, all in one place.",
+  "codeAvailableOn": "The code is available on"
 }

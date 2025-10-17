@@ -46,6 +46,8 @@
   "quickAccess": "Akses Cepat",
   "history": "Riwayat",
   "settings": "Pengaturan",
+  "comingSoon": "Segera Hadir",
+  "soon": "Segera",
   "achievementUnlocked": "Pencapaian Terbuka!",
   "conversationMaster": "Anda telah menjadi Master Percakapan",
   "completedConversations": "Menyelesaikan {count} percakapan",
@@ -156,6 +158,7 @@
   "preserveFacialFeaturesTooltip": "Mempertahankan fitur wajah otentik tanpa idealisasi",
   "styleLibrary": "Pustaka Gaya",
   "searchStyles": "Cari gaya...",
+  "filterStyles": "Filter",
   "allStyles": "Semua",
   "selected": "terpilih",
   "combinedStylePrompt": "Prompt Gaya Kombinasi",
@@ -208,5 +211,11 @@
   "configurationCode": "Kode Konfigurasi",
   "applySettingsToModel": "Terapkan Pengaturan ke Model",
   "advancedSettingsNote": "Pengaturan ini akan diterapkan pada generasi berikutnya. Model yang berbeda mendukung pengaturan yang berbeda.",
-  "basicSettings": "Pengaturan Dasar"
+  "basicSettings": "Pengaturan Dasar",
+  "pageNotFoundTitle": "404 – Halaman tidak ditemukan",
+  "pageNotFoundDescription": "Maaf, halaman ini tidak ada.",
+  "appInfoDescription1": "adalah antarmuka sumber terbuka untuk chat AI.",
+  "appInfoDescription2": "Multi-model, siap dengan kunci API Anda sendiri, dan dapat dihosting sendiri sepenuhnya.",
+  "appInfoDescription3": "Gunakan Claude, OpenAI, Gemini, model lokal, dan lainnya, semua dalam satu tempat.",
+  "codeAvailableOn": "Kode tersedia di"
 }

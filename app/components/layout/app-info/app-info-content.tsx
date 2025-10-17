@@ -1,17 +1,22 @@
+"use client";
+
+import { useLocale } from "@/app/hooks/use-locale";
+
 export function AppInfoContent() {
+  const { t } = useLocale();
+  
   return (
     <div className="space-y-4">
       <p className="text-foreground leading-relaxed">
-        <span className="font-medium">Zola</span> is the open-source interface
-        for AI chat.
+        <span className="font-medium">Zola</span> {t("appInfoDescription1")}
         <br />
-        Multi-model, BYOK-ready, and fully self-hostable.
+        {t("appInfoDescription2")}
         <br />
-        Use Claude, OpenAI, Gemini, local models, and more, all in one place.
+        {t("appInfoDescription3")}
         <br />
       </p>
       <p className="text-foreground leading-relaxed">
-        The code is available on{" "}
+        {t("codeAvailableOn")}{" "}
         <a
           href="https://github.com/ibelick/zola"
           target="_blank"
